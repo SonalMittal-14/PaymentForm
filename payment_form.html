@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            margin: 15px 30px;
+            padding: 8px;
+        }
+        .container{
+            background-color: #f2f2f2;
+            padding: 5px 20px 15px 20px;
+            border: 1px solid lightcoral;
+            border-radius: 4px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="password"],
+        input[type="date"],
+        select,
+        textarea{
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d24949;
+            margin: 10px;
+        }
+        fieldset{
+            background-color: #f2f2f2;
+            border: 1px solid #d24949;
+        }
+        .main_heading{
+            text-align: center;
+        }
+        input[type="submit"]{
+            background-color: #4daea1;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover{
+            background-color: crimson;
+        }
+    </style>
+    <script>
+        const form = document.getElementById('form');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const address = document.getElementById('address');
+        const pincode = document.getElementById('pincode');
+        const card_type = document.getElementById('card Type');
+        const card_number = document.getElementById('card number');
+        const expiration_date = document.getElementById('expiration date');
+        const cvv = document.getElementById('cvv');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            validateInputs();
+        });
+
+        const setError = (element, message) => {
+            const inputControl = element.parentElement;
+            const errorDisplay = inputControl.querySelector('.error');
+
+            errorDisplay.innerText = message;
+            inputControl.classList.add('error');
+            inputControl.classList.remove('success')
+        }
+
+        const setSuccess = element => {
+            const inputControl = element.parentElement;
+            const errorDisplay = inputControl.querySelector('.error');
+
+            errorDisplay.innerText = '';
+            inputControl.classList.add('success');
+            inputControl.classList.remove('error');
+        };
+
+        const isValidEmail = email => {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        const validateInputs = () => {
+            const usernameValue = username.value.trim();
+            const emailValue = email.value.trim();
+            const addressValue = address.value.trim();
+            const pincodeValue = pincode.value.trim();
+            const card_typeValue = card_type.value.trim();
+            const card_numberValue = card_number.value.trim();
+            const expiration_dateValue = expiration_date.value.trim();
+            const cvvValue = cvv.value.trim();
+
+            if(usernameValue === '') {
+                setError(username, 'Username is required');
+            } else {
+                setSuccess(username);
+            }
+
+            if(emailValue === '') {
+                setError(email, 'Email is required');
+            } else if (!isValidEmail(emailValue)) {
+                setError(email, 'Provide a valid email address');
+            } else {
+                setSuccess(email);
+            }
+
+            if(addressValue === '') {
+                setError(address, 'Address is required');
+            } else {
+                setSuccess(address);
+            }
+
+            if(pincodeValue === '') {
+                setError(pincode, 'Pincode is required');
+            } else if (!isValidEmail(pincodeValue)) {
+                setError(pincode, 'Provide a valid pincode');
+            } else {
+                setSuccess(pincode);
+            }
+
+            if(card_numberValue === '') {
+                setError(card_number, 'Address is required');
+            } else {
+                setSuccess(card_number);
+            }
+
+            if(cvvValue === '') {
+                setError(cvv, 'Address is required');
+            } else {
+                setSuccess(cvv);
+            }
+
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form action="">
+            <h1 class="main_heading">Payment Form</h1>
+            <h2>Contact Information</h2>
+            <p>Required feilds are denoted as *</p>
+            <p>Username* <input type="text" name="username" required placeholder="Sonal Mittal"  pattern="[A-Za-z]{3}"></p>
+            <fieldset>
+                <legend>Gender *</legend>
+                    <p>
+                        Male <input type="radio" name="gender" id="gender" required>
+                        Female <input type="radio" name="gender" id="gender" required>
+                        Other <input type="radio" name="gender" id="gender" required>
+                    </p>
+            </fieldset>
+            <p>Address:* <textarea name="address" id="address" cols="100" rows="8" required placeholder="Enter you Address" size="50" pattern="[A-Za-z]{3}"></textarea></p>
+            <p>Email: *<input type="email" name="email" id="email" required placeholder="mittal@gmail.com"></p>
+            <p>Pincode: *<input type="number" name="pincode" id="pincode" required placeholder="123456" size="6" pattern=".{6}" title="six characters"></p>
+            <hr>
+            <h2>Payment information</h2>
+            <p>Card Type: *
+                <select name="card_type" id="card_type" required>
+                    <option value="">select a card type</option>
+                    <option value="visa">visa</option>
+                    <option value="rupay">rupay</option>
+                    <option value="paypal">paypal</option>
+                    <option value="master_card">master card</option>
+                </select>
+            </p>
+            <p>
+                Card number : *<input type="number" name="card_number" id="card_number" required  placeholder="1111-2222-3333-4444">
+            </p>
+            <p>
+                Expiration date: *<input type="date" name="exp_date" id="exp_date" required>
+            </p>
+            <p>CVV: * <input type="password" name="cvv" id="cvv" required placeholder="123" size="3" pattern=".{3}" title="three characters"></p>
+            <input type="submit" value="pay now">
+        </form>
+    </div>
+</body>
+</html>
